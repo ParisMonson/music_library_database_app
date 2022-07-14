@@ -4,14 +4,14 @@ Add a route GET /artists which returns an HTML page with the list of artists. Th
 
 ## 1. Design the Route Signature
 # Request:
-GET /artists
+GET /albums/new
 
 # With body parameters:
 None
 
 
 # Expected response (200 OK)
-html page with all Artists and info
+html page containing a form
 
 ## 2. Design the Response
 
@@ -24,19 +24,16 @@ Your response might return plain text, JSON, or HTML code.
 _Replace the below with your own design. Think of all the different possible responses your route will return._
 
 ```html
-<!-- EXAMPLE -->
-<!-- Response when the post is found: 200 OK -->
+
 
 <html>
-  <head></head>
   <body>
-    <h1><a href='/artists/1'>Pixies</a></h1>
-    <div>Genre: Rock</div>
-  </body>
-
-  <body>
-    <h1><a href='/artists/2'>ABBA</a></h1>
-    <div>Genre: Pop</div>
+    <form action="/albums" method="POST">
+      <input type="text" name="title">
+      <input type="text" name="release_year">
+      <input type="number" name="artist_id">
+      <input type="submit" value="Create Artist">
+    </form>
   </body>
 
   .......
@@ -59,22 +56,7 @@ GET /artists
 # Expected response:
 
 Response for 200 OK
-``` html
-
-<html>
-  <head></head>
-  <body>
-    <h1><a href='/artists/1'>Pixies</a></h1>
-    <div>Genre: Rock</div>
-  </body>
-
-  <body>
-    <h1><a href='/artists/2'>ABBA</a></h1>
-    <div>Genre: Pop</div>
-  </body>
-
-
-## 4. Encode as Tests Examples
+``` htm
 
 ```ruby
 # EXAMPLE

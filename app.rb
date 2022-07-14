@@ -29,6 +29,10 @@ class Application < Sinatra::Base
     return erb(:all_albums)
   end
 
+  get "/albums/new" do
+    return erb("albums/new".to_sym)
+  end
+
   get "/artists" do
     @artists = []
     repo = ArtistRepository.new

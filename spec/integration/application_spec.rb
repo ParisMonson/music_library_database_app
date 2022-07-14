@@ -1,5 +1,6 @@
 require "spec_helper"
 require "rack/test"
+require "sinatra"
 require_relative '../../app'
 
 def reset_table
@@ -34,7 +35,7 @@ describe Application do
       expect(response.body).to include '<body>'
       expect(response.body).to include '<h1>'
       expect(response.body).to include '<div>'
-      expect(response.body).to include '<a href="artists/3">Taylor Swift<a>'
+      expect(response.body).to include '</a>'
     end
   end
 
@@ -64,6 +65,15 @@ describe Application do
       expect(response.body).to include("<div>")
     end
   end
+  context "GET /albums/new" do
+    it "returns 200 OK" do
+      response = get("/albums/new")
+      expect(response.status).to eq 200
+      expect(response.body).to include("</form>")
+      expect(response.body).to include("<body>")
+    end
+  end
+  
   context "GET /artists/:id" do
     it 'returns 200 OK and correct artist information' do
 
