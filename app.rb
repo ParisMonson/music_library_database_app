@@ -25,24 +25,18 @@ class Application < Sinatra::Base
     repo.create(album)
   end
   get "/albums" do
-    result = []
-    AlbumRepository.new.all.each do |album|
-      hash = {}
-      hash[:title] = album.title
-      hash[:release_year] = album.release_year
-      hash[:artist_id] = album.artist_id
-      result << hash
-    end
-    result.to_s
+    @albums = AlbumRepository.new.all
+    return erb(:all_albums)
   end
 
   get "/artists" do
-    artists = []
+    @artists = []
     repo = ArtistRepository.new
     repo.all.each do |artist|
-      artists.push(artist.name)
+      @artists.push(artist)
     end
-    return artists.join(", ")
+    
+    return erb(:all_artists)
   end
 
   post "/artists" do
@@ -63,6 +57,15 @@ class Application < Sinatra::Base
     @release_year = album.release_year
     @artist = ArtistRepository.new.find(album.artist_id).name
     return erb(:albums)
+  end
+
+  get "/artists/:id" do
+    @id = params[:id]
+    repo = ArtistRepository.new
+    artist = repo.find(@id)
+    @name = artist.name
+    @genre = artist.genre
+    return erb(:artist)
   end
   
 end

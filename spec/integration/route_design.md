@@ -1,18 +1,17 @@
 # {{ METHOD }} {{ PATH}} Route Design Recipe
 
-_Copy this design recipe template to test-drive a Sinatra route._
+Add a route GET /artists which returns an HTML page with the list of artists. This page should contain a link for each artist listed, linking to /artist/:id where :id needs to be the corresponding album id.
 
 ## 1. Design the Route Signature
 # Request:
-POST /albums
+GET /artists
 
 # With body parameters:
-title=Voyage
-release_year=2022
-artist_id=2
+None
+
 
 # Expected response (200 OK)
-(No content)
+html page with all Artists and info
 
 ## 2. Design the Response
 
@@ -31,9 +30,17 @@ _Replace the below with your own design. Think of all the different possible res
 <html>
   <head></head>
   <body>
-    <h1>Album</h1>
-    <div>Album added to database</div>
+    <h1><a href='/artists/1'>Pixies</a></h1>
+    <div>Genre: Rock</div>
   </body>
+
+  <body>
+    <h1><a href='/artists/2'>ABBA</a></h1>
+    <div>Genre: Pop</div>
+  </body>
+
+  .......
+
 </html>
 ```
 
@@ -47,24 +54,25 @@ _Replace these with your own design._
 ```
 # Request:
 
-POST
+GET /artists
 
 # Expected response:
 
 Response for 200 OK
-```
+``` html
 
-```
-# Request:
-POST /albums
+<html>
+  <head></head>
+  <body>
+    <h1><a href='/artists/1'>Pixies</a></h1>
+    <div>Genre: Rock</div>
+  </body>
 
-# With body parameters:
-title=Voyage
-release_year=2022
-artist_id=2
+  <body>
+    <h1><a href='/artists/2'>ABBA</a></h1>
+    <div>Genre: Pop</div>
+  </body>
 
-# Expected response (200 OK)
-(No content)
 
 ## 4. Encode as Tests Examples
 
@@ -72,31 +80,16 @@ artist_id=2
 # EXAMPLE
 # file: spec/integration/application_spec.rb
 
-require "spec_helper"
 
-describe Application do
-  include Rack::Test::Methods
 
-  let(:app) { Application.new }
-
-  context "POST /albums" do
-    it 'returns 200 OK' do
-      # Assuming the post with id 1 exists.
-      response = post('/albums', title: 'Voyage', release_year: 2022, artist_id: 2)
+  context "GET /artists/" do
+    it 'returns 200 OK and all artist information' do
+      response = get('/artists/')
       expect(response.status).to eq(200)
-      response = get('/albums')
-
-      expect(response.body).to include 'Voyage'
+      expect(response.body).to include '<h1>Pixies</h1>'
+      expect(response.body).to include '<h1>ABBA</h1>'
+      expect(response.body).to include '<div>Genre: Rock</div>'
     end
-
-    it 'returns 404 Not Found' do
-      response = get('/posts?id=276278')
-
-      expect(response.status).to eq(404)
-      # expect(response.body).to eq(expected_response)
-    end
-  end
-end
 ```
 
 ## 5. Implement the Route

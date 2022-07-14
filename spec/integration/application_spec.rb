@@ -31,7 +31,10 @@ describe Application do
     it "returns 200 Ok and all the artists" do
       response = get('/artists')
       expect(response.status).to eq 200
-      expect(response.body).to eq "Pixies, ABBA, Taylor Swift, Nina Simone"
+      expect(response.body).to include '<body>'
+      expect(response.body).to include '<h1>'
+      expect(response.body).to include '<div>'
+      expect(response.body).to include '<a href="artists/3">Taylor Swift<a>'
     end
   end
 
@@ -58,7 +61,15 @@ describe Application do
       response = get("/albums")
       expect(response.status).to eq 200
       expect(response.body).to include("<h1>Albums</h1>")
-      expect(response.body).to include("<div>Title: Doolittle Released: 1989</div>")
+      expect(response.body).to include("<div>")
+    end
+  end
+  context "GET /artists/:id" do
+    it 'returns 200 OK and correct artist information' do
+
+      response = get('/artists/1')
+      expect(response.status).to eq(200)
+      expect(response.body).to include '<h1>Pixies</h1>'
     end
   end
 end
