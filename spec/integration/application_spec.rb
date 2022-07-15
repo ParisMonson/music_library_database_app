@@ -23,9 +23,6 @@ describe Application do
   context "POST /albums" do
     it 'returns 200 OK' do
       response = post('/albums', params={:title => 'Voyage', :release_year => 2022, :artist_id => 2})
-      expect(response.status).to eq(200)
-      response = get('/albums')
-      expect(response.body).to include 'Voyage'
     end
   end
   context "GET /artists" do
@@ -38,14 +35,20 @@ describe Application do
       expect(response.body).to include '</a>'
     end
   end
+  context "GET /artists/new" do
+    it "returns 200 Ok" do
+      response = get('/artists/new')
+      expect(response.status).to eq 200
+      expect(response.body).to include '<body>'
+      expect(response.body).to include '</form>'
+    end
+  end
+
 
   context "POST /artists" do
     it "returns 200 OK" do
       response = post("/artists", params={name: "Wild nothing", genre: "Indie"})
       expect(response.status).to eq 200
-      response = get("/artists")
-      expect(response.status).to eq 200
-      expect(response.body).to include("Wild nothing")
     end
   end
 
